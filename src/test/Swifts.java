@@ -5,7 +5,16 @@ package test;
  */
 public class Swifts {
     public static void main(String[] args) {
-        int i = 1;
-        System.out.println(i<<1);
+        int n = 1;
+        System.out.println(n<<1);
+
+
+        int[][] memoPad = new int [10][10];
+        for (int i=0;i<10;i++) {
+            for (int j=0;j<10;j++) {
+                System.out.print(memoPad[i][j]);
+            }
+            System.out.println();
+        }
     }
 }
