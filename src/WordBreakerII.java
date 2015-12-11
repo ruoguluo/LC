@@ -21,7 +21,8 @@ public class WordBreakerII {
         	result.add("");
         	return result;
         }
-        if (memoPad.containsKey(s)) return memoPad.get(s);        
+        if (memoPad.containsKey(s)) return memoPad.get(s);
+
         for (String word:wordDict) {
             if (s.startsWith(word)) {
                 String suffix = s.substring(word.length());
