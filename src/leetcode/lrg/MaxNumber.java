@@ -1,12 +1,16 @@
 package leetcode.lrg;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Stack;
 
 /**
  * Created by programmer on 1/21/16.
  */
 public class MaxNumber {
+
+    HashMap<String, int[]> auxMap = new HashMap<>();
+
     public int[] maxNumber(int[] nums1, int[] nums2, int k) {
         int[] result = new int[k];
         maxNumber(nums1, nums2, k, 0, result);
@@ -14,7 +18,6 @@ public class MaxNumber {
     }
 
     public void maxNumber(int[] nums1, int[] nums2, int k, int i, int[] result) {
-
         Stack<Integer> stack1 = createStack(nums1, 0, nums1.length - 1);
         Stack<Integer> stack2 = createStack(nums2, 0, nums2.length - 1);
         putIntoResult(nums1,stack1,nums2,stack2,result, i, k);
@@ -26,7 +29,16 @@ public class MaxNumber {
         else if (stack2.isEmpty()) process(nums1,stack1,nums2,stack2,result,i,k);
         else if (nums1[stack1.peek()]>nums2[stack2.peek()]) process(nums1,stack1,nums2,stack2,result,i,k);
         else if (nums2[stack2.peek()]>nums1[stack1.peek()]) process(nums2,stack2,nums1,stack1,result,i,k);
-        else process(nums2,stack2,nums1,stack1,result,i,k);
+        else {
+            int[] resultA = Arrays.copyOf(result,result.length);
+            process(nums2,stack2,nums1,stack1,result,i,k);
+            process(nums1,stack1,nums2,stack2,resultA,i,k);
+            if (Arrays.toString(result).compareTo(Arrays.toString(resultA))<0) {
+                for (int ii=0;ii<result.length;ii++) {
+                    result[ii]=resultA[ii];
+                }
+            }
+        }
     }
 
     private void process(int[] numsA, Stack<Integer> stackA, int[] numsB, Stack<Integer> stackB, int[] result, int i, int k) {
@@ -39,7 +51,6 @@ public class MaxNumber {
             putIntoResult(numsA, stackA, numsB, stackB, result, i, k);
         }
     }
-
 
     private Stack<Integer> createStack(int[] nums, int start, int end) {
         Stack<Integer> stack = new Stack<>();
